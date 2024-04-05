@@ -1,0 +1,41 @@
+Game based off flappy bird
+
+
+Screen:
+    Create screen
+    Set size
+    Set background color
+
+Player:
+    Draw player to screen
+    Constantly move player down
+    Reset player
+    Detect if user presses space to "flap"
+    Detect if player goes off screen, reset player(later should reset game)
+    
+    Later: 
+        Detect if player hits "pipes", reset player(later should reset game)
+        Detect if player passes through "pipes"(Update score once created)
+
+Pipes:
+    Need to create pipes, need some sort of random way to have be different 
+    heights i.e. the passage way is at different heights.
+    
+    Need to move the pipes towards the left of the screen, x should be decreasing.
+    
+    Delete pipes somehow once they've reached the end of screen and redraw them to screen
+    with new random heights.
+
+    Reset pipes if player collides with pipes or player crosses bottom of screen.
+
+Score:
+    Create score and draw to screen
+
+    Update score when player successfully passes through pipes
+
+    Reset score if player hits pipes or crosses bottom of screen(die)
+
+
+
+
+    
