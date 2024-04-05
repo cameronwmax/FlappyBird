@@ -8,18 +8,16 @@ class Pipes:
 
         self.img = pygame.image.load("images\pipe.png")
         self.pipes = []
-        self.rects = []
-        self.sizes = [
-            [225, 225],
-            [250, 200], [200, 250],
-            [275, 175], [175, 275],
-            [150, 300], [300, 150],
-            [125, 325], [325, 125],
-            [100, 350], [350, 100],
-            [75, 375], [375, 75]
-        ]        
-        # Refactor using a for loop?
-        # Test
+        self.rects = []       
+        self.sizes = []
+        
+        left = 75
+        right = 375
+        increment = 25
+        while left != 375 and right != 75:
+            self.sizes.append([left, right])
+            left += increment
+            right -= increment
 
         
     def createPipes(self):

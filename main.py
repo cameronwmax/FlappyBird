@@ -8,7 +8,6 @@ from settings import Settings
 from bird import Bird
 from background import Background
 from gamePipes import Pipes
-# Test
 
 
 class FlappyBird:
