@@ -1,47 +1,24 @@
 import pygame
 import random
 
-class Pipes:
-    def __init__(self, fbGame):
+class Pipes(pygame.sprite.Sprite):
+    def __init__(self, fbGame, x, y, position):
+        pygame.sprite.Sprite.__init__(self)
         self.screen = fbGame.screen
         self.screen_rect = fbGame.screen.get_rect()
+        self.screen_height = fbGame.settings.screen_height
 
-        self.img = pygame.image.load("images\pipe.png")
-        self.pipes = []
-        self.rects = []       
-        self.sizes = []
+        image = pygame.image.load("images/pipe.png")
+        self.image = pygame.transform.scale(image, (100, 500))
+        self.rect = self.image.get_rect()
+        self.gap = 125
+        if position == 1:
+            self.image = pygame.transform.flip(self.image, False, True)
+            self.rect.bottomright = [x, y - int(self.gap / 2)]
+        if position == -1:
+            self.rect.topright = [x, y + int(self.gap / 2)]
         
-        left = 75
-        right = 375
-        increment = 25
-        while left != 375 and right != 75:
-            self.sizes.append([left, right])
-            left += increment
-            right -= increment
-
-        
-    def createPipes(self):
-        if len(self.pipes) != 2:
-            sizes = random.choice(self.sizes)
-            for _ in range(2):
-                self.pipes.append(pygame.transform.scale(self.img, (100, sizes[_])))
-
-            for pipe in self.pipes:
-                self.rects.append(pipe.get_rect())
-
-            self.rects[0].bottomright = (500, 600)
-            self.rects[1].topright = (500, 0)
-
-    def blitPipe(self):
-        for i in range(2):
-            self.screen.blit(self.pipes[i], self.rects[i])
-
-    def move(self):
-        for rect in self.rects:
-            rect.x -= 3
-            if rect.x < -100:
-                self.clearPipes()
-
-    def clearPipes(self):
-        self.pipes.clear()
-        self.rects.clear()
+    def movePipe(self):
+        self.rect.x -= 3
+        if self.rect.x < -100:
+            self.kill()

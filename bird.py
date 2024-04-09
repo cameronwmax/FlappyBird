@@ -1,8 +1,9 @@
 import pygame
 
 
-class Bird:
+class Bird(pygame.sprite.Sprite):
     def __init__(self, fbGame):
+        pygame.sprite.Sprite.__init__(self)
         self.screen = fbGame.screen
         self.screen_rect = fbGame.screen.get_rect()
 
