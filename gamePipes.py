@@ -11,7 +11,7 @@ class Pipes(pygame.sprite.Sprite):
         image = pygame.image.load("images/pipe.png")
         self.image = pygame.transform.scale(image, (100, 500))
         self.rect = self.image.get_rect()
-        self.gap = 125
+        self.gap = 150
         if position == 1:
             self.image = pygame.transform.flip(self.image, False, True)
             self.rect.bottomright = [x, y - int(self.gap / 2)]

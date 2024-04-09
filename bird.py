@@ -5,11 +5,7 @@ class Bird(pygame.sprite.Sprite):
     def __init__(self, fbGame):
         pygame.sprite.Sprite.__init__(self)
         self.screen = fbGame.screen
-        self.screen_rect = fbGame.screen.get_rect()
-
-        self.fallingSpeed = 1
-        self.isFalling = True
-        
+        self.screen_rect = fbGame.screen.get_rect()        
 
         imgs = [
             pygame.image.load("images/frame-1.png"),
@@ -33,23 +29,27 @@ class Bird(pygame.sprite.Sprite):
 
         self.rect.midleft = self.screen_rect.midleft
 
+        self.velocity = 0
+
     def updateFrame(self):
         self.currentFrame += 0.2
         if self.currentFrame >= len(self.frames):
             self.currentFrame = 0
         self.image = self.frames[int(self.currentFrame)]
 
+        self.image = pygame.transform.rotate(self.image, self.velocity * -2)
+
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
     def flap(self):
-        self.rect.y -= 50
-        self.fallingSpeed = 1
+        self.velocity = -9
 
-    def movement(self):
-        if self.isFalling:
-            self.fallingSpeed += .1
-            self.rect.y += self.fallingSpeed
+    def gravity(self):
+        self.velocity += 0.5
+        if self.velocity > 8:
+            self.velocity = 8
+        self.rect.y += int(self.velocity)
 
     def centerBird(self):
         self.rect.y = 300

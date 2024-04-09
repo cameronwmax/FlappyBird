@@ -65,7 +65,7 @@ class FlappyBird:
                 self.pipe_group.add(top_pipe)
                 self.last_pipe = time_now
 
-            self.bird.movement()
+            self.bird.gravity()
             for pipe in self.pipe_group:
                 pipe.movePipe()
             self.detectFall()
@@ -80,7 +80,6 @@ class FlappyBird:
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                # if event.key == pygame.MOUSEBUTTONUP:
                 self.bird.flap()
 
 
