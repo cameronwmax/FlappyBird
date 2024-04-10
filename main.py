@@ -28,66 +28,70 @@ class FlappyBird:
         )
 
         pygame.display.set_caption("Flappy Bird")
-
-        self.bird = Bird(self)
         self.bg = Background(self)
 
-        self.pipe_group = pygame.sprite.Group()
+        self.bird = Bird(self)
+        
 
-        # gap = random.randint(50, 100)
-        # btm_pipe = Pipes(self, 400, (self.settings.screen_height / 2), 1, gap)
-        # self.pipe_group.add(btm_pipe) 
-        # top_pipe = Pipes(self, 400, (self.settings.screen_height / 2), -1, gap)
-        # self.pipe_group.add(top_pipe)
+        self.pipe_group = pygame.sprite.Group()
 
         self.gameState = False
 
 
     def runGame(self):
-        
         while True:
             self._checkEvents()
 
+            if self.bird.flying:
+                self.bird.gravity()
             if self.gameState:
                 self.createNewPipes()
 
-                self.bird.gravity()
+                
                 for pipe in self.pipe_group:
                     pipe.movePipe()
                 self.detectFall()
+                self.detectCollision()
 
-            
             self._updateScreen()
             self.clock.tick(60)
-    
+
   
     def _checkEvents(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.bird.flying == False:
                 self.gameState = True
+                self.bird.flying = True
+                self.bird.flap()
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == True:
                 self.bird.flap()
 
-
     def _updateScreen(self):
-        # Redraw the screen during each pass through the loop
+        # Draw background
         self.bg.blitBg()
         
-        self.bird.blitme()
-        self.bird.updateFrame()
-
+        # Handling pipes
         self.pipe_group.draw(self.screen)
         self.pipe_group.update()
-
-
+        
+        # Handling bird
+        self.bird.blitme()
+        self.bird.updateFrame()
 
         pygame.display.flip() 
 
 
     def detectFall(self):
-        if self.bird.rect.y > 560 or self.bird.rect.y < -10:
-            self.bird.fallingSpeed = 1
+        if self.bird.rect.y >= 560:
+            self.gameState = False
+            self.bird.flying = False
+            
+
+
+    def detectCollision(self):
+        if pygame.sprite.spritecollideany(self.bird, self.pipe_group) or self.bird.rect.top < 0:
             self.gameState = False
 
 
@@ -108,6 +112,7 @@ class FlappyBird:
             self.pipe_group.add(btm_pipe) 
             self.pipe_group.add(top_pipe)
             self.last_pipe = time_now
+
 
 if __name__ == '__main__':
     fb = FlappyBird()

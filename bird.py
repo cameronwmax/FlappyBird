@@ -5,7 +5,9 @@ class Bird(pygame.sprite.Sprite):
     def __init__(self, fbGame):
         pygame.sprite.Sprite.__init__(self)
         self.screen = fbGame.screen
-        self.screen_rect = fbGame.screen.get_rect()        
+        self.screen_rect = fbGame.screen.get_rect()    
+
+        self.flying = False    
 
         self.frames = [
             pygame.image.load("images/bird1.png"),
@@ -44,3 +46,7 @@ class Bird(pygame.sprite.Sprite):
 
     def centerBird(self):
         self.rect.y = 300
+
+    def death(self):
+        self.image = pygame.transform.rotate(self.image, 90)
+        # self.rect.y = 560

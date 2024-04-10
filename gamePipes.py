@@ -1,5 +1,4 @@
 import pygame
-import random
 
 class Pipes(pygame.sprite.Sprite):
     def __init__(self, fbGame, x, y, position):
