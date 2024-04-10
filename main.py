@@ -2,6 +2,7 @@ import sys
 
 import pygame
 import random
+import time
 
 from background import Background
 from bird import Bird
@@ -15,6 +16,10 @@ from settings import Settings
 class FlappyBird:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
+
+        self.hit_sound = pygame.mixer.Sound("sounds\hit.wav")
+        self.die_sound = pygame.mixer.Sound("sounds\die.wav")
          
         # Game variable
         self.pipe_frequency = 1500
@@ -106,6 +111,7 @@ class FlappyBird:
     def detectCollision(self):
         if pygame.sprite.spritecollideany(self.bird, self.pipe_group) or self.bird.rect.top < 0:
             self.gameover()
+            self.die_sound.play()
         elif self.bird.rect.y >= self.ground_top:
             self.gameover()
             self.bird.flying = False
@@ -131,6 +137,7 @@ class FlappyBird:
 
 
     def gameover(self):
+        self.hit_sound.play()
         self.ground.speed = 0
         self.gameState = False
         self.game_over = True

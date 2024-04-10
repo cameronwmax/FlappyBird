@@ -2,6 +2,9 @@ import pygame
 
 class Scoreboard:
     def __init__(self, fbGame):
+        pygame.mixer.init()
+
+        self.point_sound = pygame.mixer.Sound("sounds\point.mp3")
         self.screen = fbGame.screen
         self.screen_rect = self.screen.get_rect()
 
@@ -25,6 +28,7 @@ class Scoreboard:
                 self.pipe_passed = True
             if self.pipe_passed == True:
                 if bird.rect.left > pipe_group.sprites()[0].rect.right:
+                    self.point_sound.play()
                     self.score += 1
                     self.pipe_passed = False
 

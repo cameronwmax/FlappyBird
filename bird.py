@@ -4,6 +4,9 @@ import pygame
 class Bird(pygame.sprite.Sprite):
     def __init__(self, fbGame):
         pygame.sprite.Sprite.__init__(self)
+        pygame.mixer.init()
+        
+        self.flap_sound = pygame.mixer.Sound("sounds/flap.mp3")
         self.screen = fbGame.screen
         self.screen_rect = fbGame.screen.get_rect()    
 
@@ -37,6 +40,7 @@ class Bird(pygame.sprite.Sprite):
 
     def flap(self):
         self.velocity = -9
+        self.flap_sound.play()
 
     def gravity(self):
         self.velocity += 0.5
