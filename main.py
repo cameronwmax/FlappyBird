@@ -7,6 +7,7 @@ from background import Background
 from bird import Bird
 from gamePipes import Pipes
 from ground import Ground
+from restartImage import Restart
 from scoreboard import Scoreboard
 from settings import Settings
 
@@ -34,6 +35,7 @@ class FlappyBird:
         self.pipe_group = pygame.sprite.Group()
         
         self.scoreboard = Scoreboard(self)
+        self.resart = Restart(self)
 
         self.ground = Ground(self)
         self.ground_top = 490
@@ -58,7 +60,9 @@ class FlappyBird:
             if self.bird.rect.y >= self.ground_top:
                 self.bird.flying = False
 
+
             self._updateScreen()
+
             self.clock.tick(60)
 
   
@@ -92,7 +96,10 @@ class FlappyBird:
         # Handling bird
         self.bird.blitme()
         self.bird.updateFrame()
-        
+
+        if self.game_over == True and self.bird.flying == False:
+            self.resart.blitRestart()
+
         self.drawText(self.scoreboard.score)
 
         pygame.display.flip() 

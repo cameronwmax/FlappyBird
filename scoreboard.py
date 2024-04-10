@@ -28,5 +28,6 @@ class Scoreboard:
                     self.score += 1
                     self.pipe_passed = False
 
+
     def resetScoreboard(self):
         self.score = 0
