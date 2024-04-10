@@ -74,7 +74,6 @@ class FlappyBird:
                 self.gameState = True
                 self.bird.flying = True
                 self.ground.speed = 3
-                # self.bird.flap()
             elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == True and self.game_over == False:
                 self.bird.flap()
             elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == False and self.game_over == True and self.bird.flying == False:
@@ -91,7 +90,6 @@ class FlappyBird:
         
 
         self.ground.blitGround()
-        # self.ground.move()
         
         # Handling bird
         self.bird.blitme()
