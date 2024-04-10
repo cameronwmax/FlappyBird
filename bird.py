@@ -7,15 +7,11 @@ class Bird(pygame.sprite.Sprite):
         self.screen = fbGame.screen
         self.screen_rect = fbGame.screen.get_rect()        
 
-        imgs = [
+        self.frames = [
             pygame.image.load("images/bird1.png"),
             pygame.image.load("images/bird2.png"),
             pygame.image.load("images/bird3.png"),
         ]
- 
-        self.frames = []
-        for img in imgs:
-            self.frames.append(pygame.transform.scale(img, (50, 50)))
         
         self.currentFrame = 0
         self.image = self.frames[self.currentFrame]
@@ -47,4 +43,4 @@ class Bird(pygame.sprite.Sprite):
         self.rect.y += int(self.velocity)
 
     def centerBird(self):
-        self.rect.y = 300
+        self.rect.y = 400
