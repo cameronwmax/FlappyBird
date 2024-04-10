@@ -69,6 +69,9 @@ class FlappyBird:
                 # self.bird.flap()
             elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == True and self.game_over == False:
                 self.bird.flap()
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == False and self.game_over == True:
+                self.resetGame()
+
 
     def _updateScreen(self):
         # Draw background
@@ -97,7 +100,6 @@ class FlappyBird:
             self.bird.flying = False
 
 
-
     def createNewPipes(self):
         time_now = pygame.time.get_ticks()
         if time_now - self.last_pipe > self.pipe_frequency:
@@ -116,11 +118,17 @@ class FlappyBird:
             self.pipe_group.add(top_pipe)
             self.last_pipe = time_now
 
+
     def gameover(self):
         self.ground.speed = 0
         self.gameState = False
         self.game_over = True
-        
+
+    
+    def resetGame(self):
+        self.game_over = False
+        self.pipe_group.empty()
+        self.bird.centerBird()
 
 
 if __name__ == '__main__':

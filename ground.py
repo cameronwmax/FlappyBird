@@ -12,7 +12,6 @@ class Ground():
         self.speed = 0
 
 
-
     def blitGround(self):
         self.screen.blit(self.image, (self.scroll, 520))
         self.scroll -= self.speed
