@@ -46,6 +46,5 @@ class Bird(pygame.sprite.Sprite):
 
     def centerBird(self):
         self.velocity = 0
-        self.image = self.frames[0]
         self.rect.y = 300
 

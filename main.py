@@ -7,6 +7,7 @@ from background import Background
 from bird import Bird
 from gamePipes import Pipes
 from ground import Ground
+from scoreboard import Scoreboard
 from settings import Settings
 
 
@@ -31,6 +32,8 @@ class FlappyBird:
         self.bg = Background(self)
         self.bird = Bird(self)
         self.pipe_group = pygame.sprite.Group()
+        
+        self.scoreboard = Scoreboard(self)
 
         self.ground = Ground(self)
         self.ground_top = 490
@@ -50,6 +53,7 @@ class FlappyBird:
                     pipe.movePipe()
 
                 self.detectCollision()
+                self.scoreboard.checkPipes(self.bird, self.pipe_group)
 
             if self.bird.rect.y >= self.ground_top:
                 self.bird.flying = False
@@ -69,7 +73,7 @@ class FlappyBird:
                 # self.bird.flap()
             elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == True and self.game_over == False:
                 self.bird.flap()
-            elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == False and self.game_over == True:
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == False and self.game_over == True and self.bird.flying == False:
                 self.resetGame()
 
 
@@ -88,6 +92,8 @@ class FlappyBird:
         # Handling bird
         self.bird.blitme()
         self.bird.updateFrame()
+        
+        self.drawText(self.scoreboard.score)
 
         pygame.display.flip() 
             
@@ -129,6 +135,18 @@ class FlappyBird:
         self.game_over = False
         self.pipe_group.empty()
         self.bird.centerBird()
+        self.scoreboard.resetScoreboard()
+
+
+    def drawText(self, score):
+        x = 200
+        y = 50
+        self.scoreboard.draw_text(x - 2, y - 2, f"{score}", "black", self.screen)
+        self.scoreboard.draw_text(x + 2, y - 2, f"{score}", "black", self.screen)
+        self.scoreboard.draw_text(x - 2, y + 2, f"{score}", "black", self.screen)
+        self.scoreboard.draw_text(x + 2, y + 2, f"{score}", "black", self.screen)
+
+        self.scoreboard.draw_text(x, y, f"{score}", "white", self.screen)
 
 
 if __name__ == '__main__':
