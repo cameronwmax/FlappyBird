@@ -40,35 +40,21 @@ class FlappyBird:
         # top_pipe = Pipes(self, 400, (self.settings.screen_height / 2), -1, gap)
         # self.pipe_group.add(top_pipe)
 
-        self.gameState = True
+        self.gameState = False
 
 
     def runGame(self):
-        while self.gameState:
+        
+        while True:
             self._checkEvents()
 
-            # Create new pipes
-            time_now = pygame.time.get_ticks()
-            if time_now - self.last_pipe > self.pipe_frequency:
-                pipe_height = random.randint(-100, 100)
-                btm_pipe = Pipes(
-                    self, 
-                    500, (self.settings.screen_height / 2) + pipe_height, 
-                    1
-                )
-                top_pipe = Pipes(
-                    self, 
-                    500, (self.settings.screen_height / 2) + pipe_height,
-                    -1
-                )
-                self.pipe_group.add(btm_pipe) 
-                self.pipe_group.add(top_pipe)
-                self.last_pipe = time_now
+            if self.gameState:
+                self.createNewPipes()
 
-            self.bird.gravity()
-            for pipe in self.pipe_group:
-                pipe.movePipe()
-            self.detectFall()
+                self.bird.gravity()
+                for pipe in self.pipe_group:
+                    pipe.movePipe()
+                self.detectFall()
 
             
             self._updateScreen()
@@ -80,6 +66,7 @@ class FlappyBird:
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.gameState = True
                 self.bird.flap()
 
 
@@ -99,10 +86,28 @@ class FlappyBird:
 
 
     def detectFall(self):
-        if self.bird.rect.y > 600:
+        if self.bird.rect.y > 560 or self.bird.rect.y < -10:
             self.bird.fallingSpeed = 1
-            self.bird.centerBird()
-            sleep(0.5)
+            self.gameState = False
+
+
+    def createNewPipes(self):
+        time_now = pygame.time.get_ticks()
+        if time_now - self.last_pipe > self.pipe_frequency:
+            pipe_height = random.randint(-100, 100)
+            btm_pipe = Pipes(
+                self, 
+                500, (self.settings.screen_height / 2) + pipe_height, 
+                1
+            )
+            top_pipe = Pipes(
+                self, 
+                500, (self.settings.screen_height / 2) + pipe_height,
+                -1
+            )
+            self.pipe_group.add(btm_pipe) 
+            self.pipe_group.add(top_pipe)
+            self.last_pipe = time_now
 
 if __name__ == '__main__':
     fb = FlappyBird()
