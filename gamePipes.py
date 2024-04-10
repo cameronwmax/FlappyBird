@@ -8,8 +8,7 @@ class Pipes(pygame.sprite.Sprite):
         self.screen_rect = fbGame.screen.get_rect()
         self.screen_height = fbGame.settings.screen_height
 
-        image = pygame.image.load("images/pipe.png")
-        self.image = pygame.transform.scale(image, (100, 500))
+        self.image = pygame.image.load("images/pipe.png")
         self.rect = self.image.get_rect()
         self.gap = 150
         if position == 1:
