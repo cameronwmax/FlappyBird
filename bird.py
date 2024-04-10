@@ -8,14 +8,9 @@ class Bird(pygame.sprite.Sprite):
         self.screen_rect = fbGame.screen.get_rect()        
 
         imgs = [
-            pygame.image.load("images/frame-1.png"),
-            pygame.image.load("images/frame-2.png"),
-            pygame.image.load("images/frame-3.png"),
-            pygame.image.load("images/frame-4.png"),
-            pygame.image.load("images/frame-5.png"),
-            pygame.image.load("images/frame-6.png"),
-            pygame.image.load("images/frame-7.png"),
-            pygame.image.load("images/frame-8.png")
+            pygame.image.load("images/bird1.png"),
+            pygame.image.load("images/bird2.png"),
+            pygame.image.load("images/bird3.png"),
         ]
  
         self.frames = []

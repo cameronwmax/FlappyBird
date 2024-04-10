@@ -6,18 +6,11 @@ class Background():
         self.screen = fbGame.screen
         self.screen_rect = fbGame.screen.get_rect()
         
-        self.bg_img = pygame.image.load("images/bg1.png").convert()
+        self.bg_img = pygame.image.load("images/bg.png")
         self.rect = self.bg_img.get_rect()
+        self.rect.bottom = self.screen_rect.bottom
 
-        self.scroll = 0
         
     def blitBg(self):
-        for i in range(1):
-            self.screen.blit(self.bg_img, (i * self.rect.x + self.scroll, 0))
-
-        # self.scroll -= 5
-
-        # if self.scroll < -500:
-        #     self.scroll = 0
-
+        self.screen.blit(self.bg_img, self.rect)
         
