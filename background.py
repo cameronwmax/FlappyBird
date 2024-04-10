@@ -13,4 +13,5 @@ class Background():
         
     def blitBg(self):
         self.screen.blit(self.bg_img, self.rect)
+
         

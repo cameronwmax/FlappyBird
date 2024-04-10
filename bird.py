@@ -47,6 +47,3 @@ class Bird(pygame.sprite.Sprite):
     def centerBird(self):
         self.rect.y = 300
 
-    def death(self):
-        self.image = pygame.transform.rotate(self.image, 90)
-        # self.rect.y = 560

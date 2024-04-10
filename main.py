@@ -3,21 +3,21 @@ import sys
 import pygame
 import random
 
-from time import sleep
-
-from settings import Settings
-from bird import Bird
 from background import Background
+from bird import Bird
 from gamePipes import Pipes
-
-
+from ground import Ground
+from settings import Settings
 
 
 class FlappyBird:
     def __init__(self):
         pygame.init()
-
+         
+        # Game variable
         self.pipe_frequency = 1500
+        self.gameState = False
+        self.game_over = False
         self.last_pipe = pygame.time.get_ticks() - self.pipe_frequency
 
         self.clock = pygame.time.Clock()
@@ -29,13 +29,11 @@ class FlappyBird:
 
         pygame.display.set_caption("Flappy Bird")
         self.bg = Background(self)
-
         self.bird = Bird(self)
-        
-
         self.pipe_group = pygame.sprite.Group()
 
-        self.gameState = False
+        self.ground = Ground(self)
+        self.ground_top = 490
 
 
     def runGame(self):
@@ -47,11 +45,14 @@ class FlappyBird:
             if self.gameState:
                 self.createNewPipes()
 
-                
+                # Move pipes
                 for pipe in self.pipe_group:
                     pipe.movePipe()
-                self.detectFall()
+
                 self.detectCollision()
+
+            if self.bird.rect.y >= self.ground_top:
+                self.bird.flying = False
 
             self._updateScreen()
             self.clock.tick(60)
@@ -61,11 +62,12 @@ class FlappyBird:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN and self.bird.flying == False:
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.bird.flying == False and self.game_over == False:
                 self.gameState = True
                 self.bird.flying = True
-                self.bird.flap()
-            elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == True:
+                self.ground.speed = 3
+                # self.bird.flap()
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.gameState == True and self.game_over == False:
                 self.bird.flap()
 
     def _updateScreen(self):
@@ -76,23 +78,24 @@ class FlappyBird:
         self.pipe_group.draw(self.screen)
         self.pipe_group.update()
         
+
+        self.ground.blitGround()
+        # self.ground.move()
+        
         # Handling bird
         self.bird.blitme()
         self.bird.updateFrame()
 
         pygame.display.flip() 
-
-
-    def detectFall(self):
-        if self.bird.rect.y >= 560:
-            self.gameState = False
-            self.bird.flying = False
             
-
 
     def detectCollision(self):
         if pygame.sprite.spritecollideany(self.bird, self.pipe_group) or self.bird.rect.top < 0:
-            self.gameState = False
+            self.gameover()
+        elif self.bird.rect.y >= self.ground_top:
+            self.gameover()
+            self.bird.flying = False
+
 
 
     def createNewPipes(self):
@@ -112,6 +115,12 @@ class FlappyBird:
             self.pipe_group.add(btm_pipe) 
             self.pipe_group.add(top_pipe)
             self.last_pipe = time_now
+
+    def gameover(self):
+        self.ground.speed = 0
+        self.gameState = False
+        self.game_over = True
+        
 
 
 if __name__ == '__main__':
